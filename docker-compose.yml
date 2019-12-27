@@ -1,0 +1,8 @@
+version: '3'
+services:
+  utils:
+    image: cloud_utils:latest
+    container_name: cloud_utils
+    build: .
+    volumes:
+    - /mnt/c/projects:/mnt/c/projects

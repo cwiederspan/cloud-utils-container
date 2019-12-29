@@ -74,19 +74,9 @@ ENV \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libc6 \
-        libgcc1 \
-        libgssapi-krb5-2 \
-        libssl1.1 \
-        libstdc++6 \
-        zlib1g
-
-RUN curl -sSL -o /tmp/downloads/dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Sdk/${NET_CORE_VERSION}/dotnet-sdk-${NET_CORE_VERSION}-linux-x64.tar.gz \
-    && mkdir -p /usr/share/dotnet \
-    && tar -C /usr/share/dotnet -ozxf /tmp/downloads/dotnet.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list \ 
+    && apt-get update \
+    && apt-get install -y dotnet-sdk-3.1
 
 # Clean up
 RUN apt-get autoremove -y \

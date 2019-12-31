@@ -1,9 +1,12 @@
-FROM debian:9
+FROM debian:10
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Utility Version
+
+# The version of Node JS to install
+ARG NODE_VERSION=12.x
 
 # Latest version of Terraform may be found at https://www.terraform.io/downloads.html
 ARG TERRAFORM_VERSION=0.12.18
@@ -36,6 +39,11 @@ RUN apt-get update \
         software-properties-common \
         gnupg2 \
         lsb-release 2>&1
+
+# Node JS
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
+    && apt-get update \
+    && apt-get install -y nodejs
 
 # Install the Azure CLI
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
@@ -74,15 +82,22 @@ ENV \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip
 
-RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list \ 
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-buster-prod buster main" > /etc/apt/sources.list.d/microsoft.list \ 
     && apt-get update \
     && apt-get install -y dotnet-sdk-3.1
+
+# Install GoLang and Powerline for the bash shell
+RUN apt install -y golang-go \
+    && go get -u github.com/justjanne/powerline-go
 
 # Clean up
 RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/downloads
+
+# Copy in the bash settings file
+COPY .bashrc /root/.bashrc
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog

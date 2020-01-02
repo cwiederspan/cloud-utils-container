@@ -6,3 +6,5 @@ services:
     build: .
     volumes:
     - /mnt/c/projects:/mnt/c/projects
+    - /mnt/c/users/chwieder/.azure:/root/.azure
+    - /mnt/c/users/chwieder/.git:/root/.config/git

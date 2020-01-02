@@ -99,6 +99,8 @@ RUN apt-get autoremove -y \
 # Copy in the bash settings file
 COPY .bashrc /root/.bashrc
 
+# RUN git config --glSobal credential.helper 'store --file /root/.config/git/credentials'
+
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
 

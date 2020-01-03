@@ -86,6 +86,9 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian
     && apt-get update \
     && apt-get install -y dotnet-sdk-3.1
 
+# Install Dapr CLI
+# RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
+
 # Install GoLang and Powerline for the bash shell
 RUN apt install -y golang-go \
     && go get -u github.com/justjanne/powerline-go

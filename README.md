@@ -6,10 +6,12 @@ the need to install and version these utilities natively on the local machine.
 ## Included Utilities
 
 * [Git](https://git-scm.com/)
+* [Node/NPM](https://node.js)
 * [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
 * [Terraform](https://www.terraform.io/)
 * [Kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)
 * [Helm](https://helm.sh/)
+<!-- * [Dapr](https://dapr.io/) -->
 
 ## Background
 

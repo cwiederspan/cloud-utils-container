@@ -8,9 +8,22 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@master
 
-    - name: Publish to Docker Repository
-      uses: elgohr/Publish-Docker-Github-Action@master
+    # - name: Publish to Docker Repository
+    #   uses: elgohr/Publish-Docker-Github-Action@master
+    #   with:
+    #     name: cwiederspan/cloud_utils:latest
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     snapshot: true
+
+    - name: Docker Login
+      uses: azure/docker-login@v1
       with:
-        name: cwiederspan/cloud_utils:latest
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Docker Build and Push
+      run: |
+        docker build . -t cwiederspan/cloud_utils:${{ github.sha }} -t cwiederspan/cloud_utils:latest
+        docker push cwiederspan/cloud_utils:${{ github.sha }}
+        docker push cwiederspan/cloud_utils:latest

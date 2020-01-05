@@ -11,7 +11,7 @@ the need to install and version these utilities natively on the local machine.
 * [Terraform](https://www.terraform.io/)
 * [Kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)
 * [Helm](https://helm.sh/)
-<!-- * [Dapr](https://dapr.io/) -->
+* [Dapr](https://dapr.io/)
 
 ## Background
 

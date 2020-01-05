@@ -60,7 +60,7 @@ RUN curl -sSL -o /tmp/downloads/terraform.zip https://releases.hashicorp.com/ter
     && mv tflint /usr/local/bin \
     && cd ~ \ 
     && apt-get install -y graphviz
-#
+
 # Install Kubectl
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list \ 
     && curl -sL https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - 2>/dev/null \
@@ -71,7 +71,8 @@ RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sour
 RUN curl -sSL -o /tmp/downloads/helm.tar.gz https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
     && mkdir -p /tmp/downloads/helm \
     && tar -C /tmp/downloads/helm -zxvf /tmp/downloads/helm.tar.gz \
-    && mv /tmp/downloads/helm/linux-amd64/helm /usr/local/bin
+    && mv /tmp/downloads/helm/linux-amd64/helm /usr/local/bin \
+    && helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
 # Install .NET Core 3.1
 ENV \
@@ -87,7 +88,7 @@ RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian
     && apt-get install -y dotnet-sdk-3.1
 
 # Install Dapr CLI
-# RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
+RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
 
 # Install GoLang and Powerline for the bash shell
 RUN apt install -y golang-go \
@@ -102,7 +103,7 @@ RUN apt-get autoremove -y \
 # Copy in the bash settings file
 COPY .bashrc /root/.bashrc
 
-# RUN git config --glSobal credential.helper 'store --file /root/.config/git/credentials'
+# RUN git config --global credential.helper 'store --file /root/.config/git/credentials'
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog

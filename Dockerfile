@@ -8,6 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # The version of Node JS to install
 ARG NODE_VERSION=12.x
 
+# Docker Compose version
+ARG COMPOSE_VERSION=1.24.0
+
 # Latest version of Terraform may be found at https://www.terraform.io/downloads.html
 ARG TERRAFORM_VERSION=0.12.18
 
@@ -39,6 +42,17 @@ RUN apt-get update \
         software-properties-common \
         gnupg2 \
         lsb-release 2>&1
+
+# Install Docker CE CLI
+RUN apt-get update \
+    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | apt-key add - 2>/dev/null \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli
+
+# Install Docker Compose
+RUN curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose
 
 # Node JS
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \

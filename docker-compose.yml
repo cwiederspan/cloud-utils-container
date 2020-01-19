@@ -5,6 +5,7 @@ services:
     container_name: cloud_utils
     build: .
     volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - /mnt/c/projects:/mnt/c/projects
     - /mnt/c/users/chwieder/.azure:/root/.azure
     - /mnt/c/users/chwieder/.kube:/root/.kube
